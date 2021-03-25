@@ -1,4 +1,5 @@
 const path = require('path')
+const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {//webpack配置对象
 //入口
@@ -25,10 +26,15 @@ module:{
         }
       }
     },
+    //处理Vue文件
+    {
+      test: /\.vue$/,
+      loader: 'vue-loader'
+    },
     //处理css
     {
       test: /\.css$/i,
-      use: ["style-loader", "css-loader"],
+      use: ["vue-style-loader", "css-loader"],
     },
     //处理图片
     {
@@ -50,10 +56,23 @@ plugins:[
   new HtmlWebpackPlugin({
     template:'index.html',
     filename:'index.html'
-  })
+  }),
+  //处理vue的插件
+  new VueLoaderPlugin()
 ],
 devServer:{
   open:true,
   quiet:false
+},
+  //开启source-map调试
+  devtool: 'cheap-modele-eval-scource-map',
+//引入模块的
+resolve:{
+  extensions:['.js','.vue','.json'],//可以省略的后缀名
+  alias:{ //路径别名(简写方式)
+    'vue$': 'vue/dist/vue.esm.js',//表示精确匹配,
+    '@':path.resolve(__dirname,'src'),
+    '@components':path.resolve(__dirname,'src/components')
+  }
 }
 }

@@ -1,7 +1,12 @@
-import logo from './assetc/imgs/logo.png'
-import  './assetc/css/my.css'
+import Vue from 'vue'
+import App from './App'
+productionSourceMap:false
 
-const image = new Image()
-image.src = logo
-document.body.appendChild(image)
-document.getElementById('root').innerHTML = '<h1>Hello222</h1>'
+const vm = new Vue({
+
+  el:"#root",
+  components:{
+    App:App
+  },
+  template: '<App/>'
+})
